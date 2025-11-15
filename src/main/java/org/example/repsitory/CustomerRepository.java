@@ -1,0 +1,10 @@
+package org.example.repsitory;
+
+import org.example.entity.CustomerEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+
+public interface CustomerRepository extends JpaRepository<CustomerEntity,Long> {
+}
