@@ -23,7 +23,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
 
-    @PostMapping
+    @PostMapping("/add")
 
     public ResponseEntity<Boolean> addCustomer(@RequestBody Customer customer) {
         Boolean success = customerService.addCustomer(customer);

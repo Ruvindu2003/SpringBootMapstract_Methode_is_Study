@@ -3,6 +3,7 @@ package org.example.service.impl;
 import lombok.RequiredArgsConstructor;
 import org.example.dto.Customer;
 import org.example.entity.CustomerEntity;
+import org.example.map.CustomerMastrack;
 import org.example.repsitory.CustomerRepository;
 import org.example.service.CustomerService;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,14 @@ import java.util.Optional;
 public class CustomerImpl implements CustomerService {
     private final CustomerRepository customerRepository;
     private final ObjectMapper objectMapper;
+    private final CustomerMastrack customerMastrack;
+
 
 
     @Override
     public List<Customer> getCustomers() {
         List<CustomerEntity> customerEntities= customerRepository.findAll();
-        return (List<Customer>) customerEntities.stream().map(customerEntity -> objectMapper.convertValue(customerEntity,Customer.class));
-
+        return customerMastrack. toDtoList(customerEntities);
     }
 
     @Override
@@ -32,21 +34,21 @@ public class CustomerImpl implements CustomerService {
             return null;
         }
         Optional<CustomerEntity> customerEntity=customerRepository.findById(id);
-      return customerEntity.map(customerEntity1 -> objectMapper.convertValue(customerEntity1,Customer.class));
+      return customerEntity.map(customerEntity1 -> customerMastrack.toDto(customerEntity1));
 
     }
 
     @Override
-    public boolean addCustomer(Customer customer) {
+    public CustomerEntity addCustomer(Customer customer) {
         if (customer == null) {
-            return false;
+            return null;
         }
-        return objectMapper.convertValue(customer,CustomerEntity.class) != null;
+        return customerRepository.save(customerMastrack.toEntity(customer));
     }
 
     @Override
     public boolean updateCustomer(Customer customer) {
-        return objectMapper.convertValue(customer,CustomerEntity.class) != null;
+        return customerRepository.save(customerMastrack.toEntityDto(customer)) != null;
     }
 
     @Override
