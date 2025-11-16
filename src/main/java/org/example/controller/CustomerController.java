@@ -3,6 +3,7 @@ package org.example.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.dto.Customer;
+import org.example.entity.CustomerEntity;
 import org.example.service.CustomerService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,11 +24,11 @@ public class CustomerController {
     private final CustomerService customerService;
 
 
-    @PostMapping
+    @PostMapping("/add")
 
-    public ResponseEntity<Boolean> addCustomer(@RequestBody Customer customer) {
-        Boolean success = customerService.addCustomer(customer);
-        if (success) {
+    public ResponseEntity<CustomerEntity> addCustomer(@RequestBody Customer customer) {
+        CustomerEntity success = customerService.addCustomer(customer);
+        if (success != null) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

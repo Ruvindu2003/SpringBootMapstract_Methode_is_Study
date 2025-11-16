@@ -6,17 +6,29 @@ import org.example.entity.CustomerEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper
+import java.util.List;
+
+@Mapper(componentModel = "spring")
 
 public interface CustomerMastrack {
 
 @Mapping(target = "id",source = "id")
     CustomerEntity customerEntityMapping(Customer customer);
 
-    Customer customerMapping(CustomerEntity customerEntity);
+    CustomerEntity toEntity(Customer customer);
 
     @Mapping(target = "id",source = "id")
-    CustomerEntity customerDtoMapping(Customer customer);
+        Customer toDto(CustomerEntity customerEntity);
+
+    List<Customer> toDtoList(List<CustomerEntity> customerEntities);
+
+
+    CustomerEntity toEntityDto(Customer customer);
+
+
+
+
+
 
 
 
